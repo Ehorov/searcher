@@ -11,12 +11,14 @@ function LoadingText() {
     if (loadingText === "АНАЛІЗУЮ") {
       const intervalId = setInterval(() => {
         setLoadingDots((prevDots) => {
-          if (prevDots === "...") {
+          if (prevDots === "") {
             return ".";
           } else if (prevDots === ".") {
             return "..";
-          } else {
+          } else if (prevDots === "..") {
             return "...";
+          } else {
+            return "";
           }
         });
       }, 500);
@@ -36,16 +38,20 @@ function LoadingText() {
   }, []);
 
   return (
-    <span>
-      {loadingText}
-      {loadingText === "АНАЛІЗУЮ" && loadingDots}
-    </span>
+    <div className={s.loadingTextContainer}>
+      <span className={s.loadingText}>{loadingText}</span>
+      {loadingText === "АНАЛІЗУЮ" && (
+        <span className={`${s.loadingDots} ${s.loadingDotsFixedWidth}`}>
+          {loadingDots}
+        </span>
+      )}
+    </div>
   );
 }
 
 function App() {
   return (
-    <div>
+    <div className={s.container}>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Searcher</title>

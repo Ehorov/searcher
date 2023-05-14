@@ -49,7 +49,7 @@ function App() {
       <Helmet>
         <meta charSet="utf-8" />
         <title>Searcher</title>
-        <link rel="canonical" href="http://searcher.vercel.app" />
+        <link rel="canonical" href="http://shukayu.vercel.app" />
       </Helmet>
 
       <div className={s.title}>

@@ -1,23 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
+import Stars from "./components/Stars/Stars";
+import s from "./app.module.css";
+
+function LoadingText() {
+  const [loadingText, setLoadingText] = useState("АНАЛІЗУЮ");
+  const [loadingDots, setLoadingDots] = useState("");
+
+  useEffect(() => {
+    if (loadingText === "АНАЛІЗУЮ") {
+      const intervalId = setInterval(() => {
+        setLoadingDots((prevDots) => {
+          if (prevDots === "...") {
+            return ".";
+          } else if (prevDots === ".") {
+            return "..";
+          } else {
+            return "...";
+          }
+        });
+      }, 500);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [loadingText]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setLoadingText("МІНУСІВ НЕ ЗНАЙДЕНО!");
+    }, 7000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  return (
+    <span>
+      {loadingText}
+      {loadingText === "АНАЛІЗУЮ" && loadingDots}
+    </span>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Searcher</title>
+        <link rel="canonical" href="http://searcher.vercel.app" />
+      </Helmet>
+
+      <div className={s.title}>
+        <LoadingText />
+        <Stars />
+      </div>
     </div>
   );
 }
